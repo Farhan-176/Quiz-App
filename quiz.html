@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizMaster</title>
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1 class="quiz-title">QuizMaster</h1>
+    </div>
+
+    <!-- Quiz Wrapper -->
+    <div class="quiz-wrapper">
+        <!-- Question Section -->
+        <div class="question-section">
+            <div class="question-header">
+                <h2 id="question-number">Q1)</h2>
+                <span id="timer">⏳ <span id="time-left">60</span>s</span>
+            </div>
+            <h3 id="question-text">Loading question...</h3>
+
+            <div class="options">
+                <label><input type="radio" name="answer" value="0" onclick="selectAnswer(0)"> <span id="option-0"></span></label>
+                <label><input type="radio" name="answer" value="1" onclick="selectAnswer(1)"> <span id="option-1"></span></label>
+                <label><input type="radio" name="answer" value="2" onclick="selectAnswer(2)"> <span id="option-2"></span></label>
+                <label><input type="radio" name="answer" value="3" onclick="selectAnswer(3)"> <span id="option-3"></span></label>
+            </div>
+
+            <div class="quiz-controls">
+                <button class="control-btn" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Back</button>
+                <button class="control-btn" id="next-btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+                <button class="control-btn" id="submit-btn" onclick="submitQuiz()">Submit <i class="fas fa-check"></i></button>
+            </div>
+        </div>
+
+        <!-- Progress and Skipped Questions Section -->
+        <div class="right-section">
+            <!-- Question Progress Section -->
+            <div class="progress-section">
+                <h3>Question Progress</h3>
+                <p>Question <span id="current-question">1</span> of <span id="total-questions">5</span></p>
+            </div>
+
+            <!-- Skipped Questions Section -->
+            <div class="skipped-section">
+                <h3><i class="fas fa-forward"></i> Skipped Questions</h3>
+                <div id="skipped-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Over Popup -->
+    <div id="time-over-popup" class="popup">
+        <h1>⏳ Time Over! ⏳</h1>
+        <button class="popup-btn" onclick="submitQuiz()">Submit Quiz</button>
+    </div>
+
+    <!-- Instructions Popup -->
+    <div id="instructions-popup" class="popup">
+        <h1>📝 Instructions</h1>
+        <p>Welcome to the Quiz! Here are the instructions:</p>
+        <ul>
+            <li>You have 60 seconds to complete the quiz.</li>
+            <li>Answer all questions before the time runs out.</li>
+            <li>You can skip questions and come back to them later.</li>
+        </ul>
+        <button class="popup-btn" onclick="startQuiz()">Start Quiz <i class="fas fa-play"></i></button>
+    </div>
+
+    <script src="quiz.js"></script>
+</body>
+
+</html>

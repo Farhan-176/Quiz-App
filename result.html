@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result | QuizMaster</title>
+    <link rel="stylesheet" href="quiz.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #2196f3, #64b5f6, #e3f2fd);
+            /* Material Design Blue and Gray */
+            color: #333;
+            /* Dark text for contrast */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .result-container {
+            background: rgba(255, 255, 255, 0.9);
+            /* Semi-transparent white background */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .result-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2196f3;
+            /* Blue accent color */
+        }
+
+        .result-text {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #333;
+            /* Dark text */
+        }
+
+        .score {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .score.green {
+            color: #4caf50;
+            /* Green for scores above 50% */
+        }
+
+        .score.red {
+            color: #f44336;
+            /* Red for scores 50% or below */
+        }
+
+        .prev-score {
+            font-size: 18px;
+            color: #ff9800;
+            /* Orange for previous score */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 16px;
+            background: #2196f3;
+            /* Blue for buttons */
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background: #1976d2;
+            /* Darker blue on hover */
+        }
+
+        .btn-secondary {
+            background: #4caf50;
+            /* Green for secondary buttons */
+        }
+
+        .btn-secondary:hover {
+            background: #45a049;
+            /* Darker green on hover */
+        }
+
+        .btn-success {
+            background: #ff9800;
+            /* Orange for success buttons */
+        }
+
+        .btn-success:hover {
+            background: #f57c00;
+            /* Darker orange on hover */
+        }
+
+        .answers-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: left;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .answer {
+            font-size: 18px;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+        }
+
+        .correct-answer {
+            color: #4caf50;
+            /* Green for correct answers */
+            font-weight: bold;
+        }
+
+        .wrong-answer {
+            color: #f44336;
+            /* Red for incorrect answers */
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .result-container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            .result-title {
+                font-size: 22px;
+            }
+
+            .result-text {
+                font-size: 16px;
+            }
+
+            .score {
+                font-size: 24px;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .result-container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            .result-title {
+                font-size: 20px;
+            }
+
+            .result-text {
+                font-size: 14px;
+            }
+
+            .score {
+                font-size: 20px;
+            }
+
+            .btn {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="result-container">
+        <h2 class="result-title">Quiz Results</h2>
+        <p class="result-text"><strong>Username:</strong> <span id="username"></span></p>
+        <p class="result-text"><strong>Score:</strong> <span class="score" id="score"></span></p>
+        <p class="result-text"><strong>Previous Score:</strong> <span class="prev-score" id="prevScore">N/A</span></p>
+
+        <button class="btn btn-success" onclick="retryQuiz()">Retry Quiz</button>
+        <button class="btn btn-secondary" id="view-answers-btn" onclick="viewAnswers()">View Answers</button>
+        <button class="btn" onclick="logout()">Logout</button>
+
+        <!-- Answers Section -->
+        <div class="answers-container" id="answers-container">
+            <h3>Correct Answers</h3>
+            <div id="answers-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // Retrieve stored quiz data
+        const username = localStorage.getItem("username") || "Guest";
+        const score = localStorage.getItem("currentScore") || 0;
+        const totalQuestions = localStorage.getItem("totalQuestions") || 1;
+        const previousScore = localStorage.getItem("previousScore");
+        const questions = JSON.parse(localStorage.getItem("quizQuestions")) || [];
+        const userAnswers = JSON.parse(localStorage.getItem("userAnswers")) || {};
+
+        // Calculate percentage
+        const percentage = ((score / totalQuestions) * 100).toFixed(2);
+
+        // Display results
+        document.getElementById("username").innerText = username;
+        const scoreElement = document.getElementById("score");
+        scoreElement.innerText = `${score} / ${totalQuestions} (${percentage}%)`;
+
+        // Change score color based on percentage
+        if (percentage <= 50) {
+            scoreElement.classList.add("red");
+        } else {
+            scoreElement.classList.add("green");
+        }
+
+        // Show previous score if available
+        if (previousScore !== null) {
+            document.getElementById("prevScore").innerText = `${previousScore} / ${totalQuestions}`;
+        }
+
+        // Store the latest score as previous score
+        localStorage.setItem("previousScore", score);
+
+        // Function to retry the quiz
+        function retryQuiz() {
+            localStorage.removeItem("currentScore");
+            window.location.href = "quiz.html";
+        }
+
+        // Function to view/hide answers
+        function viewAnswers() {
+            const answersContainer = document.getElementById("answers-container");
+            const answersList = document.getElementById("answers-list");
+            const viewAnswersBtn = document.getElementById("view-answers-btn");
+
+            // Toggle visibility of answers container
+            if (answersContainer.style.display === "none" || answersContainer.style.display === "") {
+                answersContainer.style.display = "block";
+                viewAnswersBtn.innerText = "Hide Answers"; // Change button text
+                answersList.innerHTML = ""; // Clear previous content
+
+                // Display correct answers and user's incorrect answers
+                if (questions.length > 0) {
+                    questions.forEach((q, index) => {
+                        const answerItem = document.createElement("div");
+                        answerItem.classList.add("answer");
+
+                        // Check if the user answered this question
+                        const userAnswer = userAnswers[index];
+                        const isCorrect = userAnswer === q.correct;
+
+                        // Display the question and correct answer
+                        answerItem.innerHTML = `<strong>Q${index + 1}: ${q.q}</strong><br>
+                        ✅ <span class="correct-answer">Correct Answer: ${q.options[q.correct]}</span>`;
+
+                        // If the user answered incorrectly, show their answer
+                        if (userAnswer !== undefined && !isCorrect) {
+                            answerItem.innerHTML += `<br>❌ <span class="wrong-answer">Your Answer: ${q.options[userAnswer]}</span>`;
+                        }
+
+                        answersList.appendChild(answerItem);
+                    });
+                } else {
+                    answersList.innerHTML = "<p>No answers available.</p>";
+                }
+            } else {
+                answersContainer.style.display = "none";
+                viewAnswersBtn.innerText = "View Answers"; // Change button text back
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem("currentUser");
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>

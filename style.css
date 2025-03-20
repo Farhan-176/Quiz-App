@@ -1,0 +1,217 @@
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #2196f3, #64b5f6, #e3f2fd);
+  /* Material Design Blue and Gray */
+  color: #333;
+  /* Dark text for contrast */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Container */
+.container {
+  background: rgba(255, 255, 255, 0.9);
+  /* Semi-transparent white background */
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  /* Glassmorphism effect */
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #2196f3;
+  /* Blue accent color */
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #2196f3;
+  /* Blue accent color */
+}
+
+.center {
+  text-align: center;
+}
+
+.btn {
+  display: block;
+  padding: 14px;
+  background: #2196f3;
+  /* Blue for buttons */
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 20px;
+  transition: 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background: #1976d2;
+  /* Darker blue on hover */
+}
+
+.desc {
+  font-size: 20px;
+  margin-bottom: 25px;
+  color: #333;
+  /* Dark text */
+}
+
+/* Form Styling */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  /* Space between form elements */
+  width: 100%;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  /* Semi-transparent white background */
+  color: #333;
+  /* Dark text */
+}
+
+input::placeholder {
+  color: #ccc;
+  /* Light gray placeholder text */
+}
+
+button {
+  padding: 14px;
+  width: 100%;
+  background: #2196f3;
+  /* Blue for buttons */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #1976d2;
+  /* Darker blue on hover */
+}
+
+/* Toggle form text */
+.toggle-form {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+  /* Dark text */
+}
+
+.toggle-form span {
+  color: #2196f3;
+  /* Blue accent color */
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    width: 90%;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .desc {
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .toggle-form {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+    width: 95%;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .desc {
+    font-size: 14px;
+  }
+
+  input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .toggle-form {
+    font-size: 12px;
+  }
+}
